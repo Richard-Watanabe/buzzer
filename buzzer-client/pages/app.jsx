@@ -11,11 +11,10 @@ class App extends React.Component {
   render() {
     return (
     <div className="container">
+      <button>Call</button>
     </div>
     );
   }
 }
-
-App.contextType = AppContext;
 
 export default App;
