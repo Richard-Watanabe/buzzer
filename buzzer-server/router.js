@@ -2,12 +2,12 @@ const router = require('express').Router();
 const controllers = require('./controllers');
 
 router
-  .route('/business/:id/seats')
-    .get(controllers.seats.get)
-    .post(controllers.seats.post)
-    .put(controllers.seats.put)
+  .route('/business/:id/tables')
+    .get(controllers.tables.get)
+    .post(controllers.tables.post)
+    .put(controllers.tables.put)
     .route('/qr')
-      .get(controllers.seats.qr.get);
+      .get(controllers.tables.qr.get);
 
 router
   .route('/user/:id')
