@@ -7,17 +7,24 @@ const controllers = {
   tables: {
     get: (req, res) => {
       // Get all tables for user's business
+      if (!req.params.id) {
+        res.status(404).send('No ID provided');
+      }
       // req.params.id will be business' (user) id
       businessRef.doc(req.params.id) // Points to specific document in business collection
         .get() // Gets a snapshot of the data from that document
         .then((result) => { // Does something with that data
+          if (!result.exists) {
+            res.status(404).send('No users found with that ID');
+          }
+
           result.ref.collection('tables') // Points to the subcollection "tables" of that document
             .get() // Gets a snapshot of the data from that document
             .then((snapshot) => { // Does something with that data
                 let returnArr = [];
                 snapshot.docs.forEach((doc) => { // Iterate over the documents
                   returnArr.push(doc.data()); // Push table data into arr
-                })
+                });
                 res.status(200).send(returnArr);
               }
             )
