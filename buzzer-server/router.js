@@ -5,15 +5,19 @@ router
   .route('/business/:id/tables')
     .get(controllers.tables.get)
     .post(controllers.tables.post)
-    .put(controllers.tables.put)
-    .route('/qr')
-      .get(controllers.tables.qr.get);
+    .put(controllers.tables.put);
+
+router
+  .route('/business/:id/tables/qr')
+    .get(controllers.tables.qr.get);
 
 router
   .route('/user/:id')
     .get(controllers.user.get)
     .put(controllers.user.put)
     .delete(controllers.user.delete)
+
+router
   .route('/user')
     .post(controllers.user.post);
 

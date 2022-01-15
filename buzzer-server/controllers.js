@@ -1,14 +1,28 @@
 const db = require('./firebase/db');
 
+const usersRef = db.collection('users');
+const businessRef = db.collection('businesses');
+
 const controllers = {
   tables: {
     get: (req, res) => {
       // Get all tables for user's business
-      db.collection('users') // Example of a firestore db query
-        .get()
-        .then((snapshot) => {
-          console.log(snapshot.docs[0].data());
+      // req.params.id will be business' (user) id
+      businessRef.doc(req.params.id) // Points to specific document in business collection
+        .get() // Gets a snapshot of the data from that document
+        .then((result) => { // Does something with that data
+          result.ref.collection('tables') // Points to the subcollection "tables" of that document
+            .get() // Gets a snapshot of the data from that document
+            .then((snapshot) => { // Does something with that data
+                let returnArr = [];
+                snapshot.docs.forEach((doc) => { // Iterate over the documents
+                  returnArr.push(doc.data()); // Push table data into arr
+                })
+                res.status(200).send(returnArr);
+              }
+            )
         })
+
     },
     post: (req, res) => {
       // Post new table(s) for user's business
@@ -37,5 +51,5 @@ const controllers = {
     }
   }
 }
-controllers.tables.get()
+
 module.exports = controllers;
